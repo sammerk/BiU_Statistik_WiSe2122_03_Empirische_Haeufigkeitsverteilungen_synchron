@@ -143,7 +143,7 @@ penguins_biscoe <-
   filter(island == "Biscoe")
 ```
 
-Ökolog\*innen untersuchen auf Biscoe Island (Antarktis) `r nrow(penguins_biscoe)` Pinguine. Sie bermessen deren Flügellängen und erhalten die folgenden Lage- und Dispersionsmaße:
+Ökolog\*innen untersuchen auf Biscoe Island (Antarktis) `r nrow(penguins_biscoe)` Pinguine. Sie vermessen deren Flügellängen und erhalten die folgenden Lage- und Dispersionsmaße:
 
 ```{r}
 summary(penguins_biscoe$flipper_length_mm)
@@ -165,7 +165,7 @@ penguins_boxplot
 
 ---
 class: hide_logo
-```{r, warning=FALSE, out.width="70%", fig.align='center', fig.width=10, retina = 3, fig.height=5}
+```{r, warning=FALSE, out.width="70%", fig.align='center', fig.width=10, fig.retina = 3, fig.height=5}
 penguins_box_and_jitterplot <- 
   ggplot(penguins%>% filter(island == "Biscoe"),
        aes(island, flipper_length_mm)) +
@@ -174,6 +174,23 @@ penguins_box_and_jitterplot <-
   theme_modern_rc() + 
   labs(title = "Flipper Length in mm",  subtitle = "einer Stichprobe von Pinguinen auf Biscoe Island")
 penguins_boxplot + penguins_box_and_jitterplot
+```
+
+---
+class: inverse
+## Unser Standarddatensatz: Palmer Penguins
+```{r, echo = F, out.width="80%", fig.align='center'}
+knitr::include_graphics("https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png")
+```
+
+---
+## Unser Standarddatensatz: Palmer Penguins
+```{r, fig.retina=3, out.width="40%", warning = F, message=FALSE, fig.width=9, fig.align='center'}
+penguins %>%
+  dplyr::select(species, body_mass_g, ends_with("_mm")) %>%
+  GGally::ggpairs(aes(color = species)) +
+  scale_colour_manual(values = c("darkorange","purple","cyan4")) +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) 
 ```
 
 

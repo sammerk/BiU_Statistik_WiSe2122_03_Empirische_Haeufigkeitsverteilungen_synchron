@@ -92,7 +92,7 @@ top:1em;right:1em;
 ## Palmerpenguins
 
 
-Ökolog\*innen untersuchen auf Biscoe Island (Antarktis) 168 Pinguine. Sie bermessen deren Flügellängen und erhalten die folgenden Lage- und Dispersionsmaße:
+Ökolog\*innen untersuchen auf Biscoe Island (Antarktis) 168 Pinguine. Sie vermessen deren Flügellängen und erhalten die folgenden Lage- und Dispersionsmaße:
 
 
 ```r
@@ -137,6 +137,24 @@ penguins_boxplot + penguins_box_and_jitterplot
 
 &lt;img src="index_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /&gt;
 
+---
+class: inverse
+## Unser Standarddatensatz: Palmer Penguins
+&lt;img src="https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+## Unser Standarddatensatz: Palmer Penguins
+
+```r
+penguins %&gt;%
+  dplyr::select(species, body_mass_g, ends_with("_mm")) %&gt;%
+  GGally::ggpairs(aes(color = species)) +
+  scale_colour_manual(values = c("darkorange","purple","cyan4")) +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) 
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-6-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 class: hide_logo
@@ -146,7 +164,7 @@ class: hide_logo
 
 &amp;nbsp;
 
-&lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-7-1.png" width="30%" style="display: block; margin: auto;" /&gt;
 
 
 
