@@ -1,0 +1,212 @@
+---
+title: "Vorlesung"
+subtitle: "Statistik"
+author: "Samuel Merk"
+date: " `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      navigation:
+        scroll: false
+        click: false
+        touch: true
+editor_options: 
+  chunk_output_type: console
+---
+class: center,  middle, hide_logo
+
+
+<head>
+<script src="https://kit.fontawesome.com/994a28441d.js" crossorigin="anonymous"></script>
+</head>
+
+<!--<div class="my-footer"><span>Folien CC-BY verfügbar unter https://atelier-phka-merk-2020.netlify.app</span></div> 
+
+
+<style>
+.remark-slide-number {
+  font-size: 10pt;
+  margin-bottom: -11.6px;
+  margin-right: 10px;
+  color: red; /* white */
+  opacity: 0; /* default: 0.5 */
+}
+</style>
+--> 
+
+```{r xaringan-themer, echo=F, warning=FALSE}
+library(xaringanthemer)
+library(fontawesome)
+library(xaringanExtra)
+
+extra_css <- list(
+  ".cit"  = list("font-size" = "70%",
+                 "color" = "#6AEE3E90"),
+  ".em05" = list("font-size" ="0.5em"),
+  ".em06" = list("font-size" ="0.6em"),
+  ".em07" = list("font-size" ="0.7em"),
+  ".em08" = list("font-size" ="0.8em"),
+  ".em09" = list("font-size" ="0.9em"),
+  ".em11" = list("font-size" ="1.1em"),
+  ".em12" = list("font-size" ="1.2em"),
+  ".em13" = list("font-size" ="1.3em"),
+  ".em14" = list("font-size" ="1.4em"),
+  ".em15" = list("font-size" ="1.5em"),
+  ".em16" = list("font-size" ="1.6em"),
+  ".em17" = list("font-size" ="1.7em"),
+  ".em18" = list("font-size" ="1.8em"),
+  ".em19" = list("font-size" ="1.9em"),
+  ".bold" = list("font-weight" = "bold"),
+  ".large" = list("font-size" = "160%"),
+  ".vertmiddle" = list("vertical-align" ="middle"),
+  #".lh15" = list("line-height" =  "1.5"),
+  ".li" = list("line-height" =  "1.5",
+               "font-size" = "160%",
+               "font-weight" = "bold"),
+  ".phgreen" = list("color" = "#50B32E"),
+  ".phgreenlight" = list("color" = "#62DC3A"),
+  ".pgl" = list("color" = "#62DC3A"),
+  ".phg" = list("color" = "#8cd000"),
+ # ".my-footer" = list("background-color" = "#1a1917",
+ #                     "position" = "absolute",
+ #                     "bottom" = "0px",
+ #                     "left" = "0px",
+ #                     "height" = "20px",
+ #                     "width" = "100%"),
+  ".my-footer span" = list("font-size" = "10pt", 
+                           "color" = "#F7F8FA",
+                           "position" = "absolute",
+                           "left" = "15px",
+                           "bottom" = "2px"),
+  ".remark-slide-number" = list("bottom" = "-18px"),
+  ".li" = list("line-height" =  "4"),
+  ".scroll-box-18" = list("height" ="18em",
+                           "overflow-y" = "scroll"),
+  ".scroll-box-23" = list("height" ="23em",
+                           "overflow-y" = "scroll"),
+  ".hscroll-box-30" = list("width" ="23em",
+                           "overflow-x" = "scroll"))
+
+style_mono_accent_inverse(
+  base_color = "#8cd000",
+  white_color = "#FFFFFF",
+  black_color = "#272822",
+  extra_css = extra_css)
+
+library(xaringanExtra)
+use_logo(
+  image_url = "https://apps.samuel-merk.de/data/PHK_2018_Logo_V1_FARBE_NUR_PH.svg",
+  width = "80px",
+  position = xaringanExtra::css_position(top = "1em", right = "1em")
+)
+```
+
+
+.phg[
+# Vorlesung:
+
+<i class="fas fa-microscope fa-7x"></i>
+
+### Statistik
+---  
+.em14[Samuel Merk | PH Karlsruhe]]  
+
+
+
+---
+## Was habe ich heute vor?
+* Aktivierung Ihres Vorwissens
+* FAQ zu Aufgaben und Videos
+* Software-Einführung
+    * JASP
+    * R
+* Untersuchung empirischer Häufigkeitsverteilungen mit R/JASP
+
+
+---
+## Palmerpenguins
+```{r, message = F, warning=FALSE, echo = F}
+library(tidyverse)
+library(palmerpenguins)
+library(hrbrthemes)
+library(patchwork)
+library(ggforce)
+penguins_biscoe <- 
+  penguins %>%
+  filter(island == "Biscoe")
+```
+
+Ökolog\*innen untersuchen auf Biscoe Island (Antarktis) `r nrow(penguins_biscoe)` Pinguine. Sie bermessen deren Flügellängen und erhalten die folgenden Lage- und Dispersionsmaße:
+
+```{r}
+summary(penguins_biscoe$flipper_length_mm)
+```
+
+> Wie kann man die Verteilung der Variable `flipper_length_mm` charakterisieren? (Nutzen Sie dazu die neu gelernten Begriffe der deskriptiven Statistik [zentrale Tendenz, Dispersion, Schiefe ...])
+
+---
+## Biscoe Penguins
+```{r, message = F, fig.retina=3, warning=FALSE, out.width = "30%", fig.align='center'}
+penguins_boxplot <- 
+  ggplot(penguins_biscoe,
+       aes(island, flipper_length_mm)) +
+  geom_boxplot(color = "#8cd000", fill = "#8cd00030") + 
+  theme_modern_rc() + 
+  labs(title = "Flipper Length in mm",  subtitle = "einer Stichprobe von Pinguinen auf Biscoe Island")
+penguins_boxplot
+```
+
+---
+class: hide_logo
+```{r, warning=FALSE, out.width="70%", fig.align='center', fig.width=10, retina = 3, fig.height=5}
+penguins_box_and_jitterplot <- 
+  ggplot(penguins%>% filter(island == "Biscoe"),
+       aes(island, flipper_length_mm)) +
+  geom_boxplot(color = "#8cd000", fill = "#8cd00030") + 
+  geom_sina(color = "#8cd00045") +
+  theme_modern_rc() + 
+  labs(title = "Flipper Length in mm",  subtitle = "einer Stichprobe von Pinguinen auf Biscoe Island")
+penguins_boxplot + penguins_box_and_jitterplot
+```
+
+
+---
+class: hide_logo
+
+## Ihre Fragen zu Video und Aufgaben
+> Bitte stellen Sie Ihre Fragen zum Video und den Aufgaben unter https://bit.ly/merk015 und voten Sie die Fragen Ihrer Kommiliton\*innen.
+
+&nbsp;
+
+```{r, out.width="30%", fig.align='center', echo = F, message = F}
+library(qrencoder)
+par(mar=c(0,0,0,0))
+image(qrencode_raster("https://bit.ly/merk015"), 
+      asp=1, col=c("#000000", "#62DC3A"), axes=FALSE, 
+      xlab="", ylab="", bg = 'transparent')
+```
+
+
+
+---
+## Datensätze
+.em09[
+* Gorman, K. B., Williams, T. D., & Fraser, W. R. (2014). Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis). PLoS ONE, 9(3), e90081. https://doi.org/10.1371/journal.pone.0090081
+
+* Presse- Und Informationsamt Der Bundesregierung, B. (2020). Climate and Energy (1.0.0) [Data set]. GESIS Data Archive. https://doi.org/10.4232/1.13518
+
+* Wullenkord, M. C., Tröger, J., Hamann, K. R. S., Loy, L. S., & Reese, G. (2021). Anxiety and climate change: A validation of the Climate Anxiety Scale in a German-speaking quota sample and an investigation of psychological correlates. Climatic Change, 168(3–4), 20. https://doi.org/10.1007/s10584-021-03234-6
+
+* COVIDiSTRESS Global Survey Consortium, Yamada, Y., Ćepulić, D.-B., Coll-Martín, T., Debove, S., Gautreau, G., Han, H., Rasmussen, J., Tran, T. P., Travaglino, G. A., & Lieberoth, A. (2021). COVIDiSTRESS Global Survey dataset on psychological and behavioural consequences of the COVID-19 outbreak. Scientific Data, 8(1), 3. https://doi.org/10.1038/s41597-020-00784-9
+
+> Forschungsfrage: Wie lassen sich die Verteilungen Sie interessierender Variablen aus den obigen Datensätzen charakterisieren? Recherchieren Sie zunächst den Datensatz, verschaffen Sie sich anhand der Skalendokumentation einen Überblick über die Daten und berechnen Sie deskriptiv-statistische Kennwerte der Verteilung, bevor Sie die Variable geeignet grafisch darstellen.]
+
+
+
